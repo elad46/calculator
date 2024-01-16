@@ -17,23 +17,31 @@ def on_operation(operator):
 
 def on_equal():
     second_number = int(entry.get())
-    if operation == "+":
-        result = first_number + second_number
-    elif operation == "-":
-        result = first_number - second_number
-    elif operation == "*":
-        result = first_number * second_number
-    elif operation == "/":
-        result = first_number / second_number
-    entry.delete(0, tk.END)
-    entry.insert(tk.END, str(result))
+    try:
+        if operation == "+":
+            result = first_number + second_number
+        elif operation == "-":
+            result = first_number - second_number
+        elif operation == "*":
+            result = first_number * second_number
+        elif operation == "/":
+            result = first_number / second_number
+        entry.delete(0, tk.END)
+        entry.insert(tk.END, str(result))
+    except ZeroDivisionError:
+        entry.insert(tk.END, "שגיאה")
 
 window = tk.Tk()
 window.title("מחשבון")
 
-# תיבת קלט
-entry = tk.Entry(window, width=35, borderwidth=5)
+#  קלט
+entry = tk.Entry(window, width=35, font=('Arial', 18), borderwidth=5)
 entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+
+# צבעים
+button_color = "#f2f2f2"
+operation_color = "#666666"
+clear_color = "#ff6666"
 
 # buttons
 buttons = [
@@ -45,7 +53,13 @@ buttons = [
     ('C', 4, 0),
 ]
 for text, row, col in buttons:
-    button = tk.Button(window, text=text, padx=40, pady=20, command=lambda t=text: on_click(t) if t.isnumeric() else on_clear() if t == 'C' else on_operation(t) if t in "+-*/" else on_equal())
+    if text in "+-*/=":
+        btn_color = operation_color
+    elif text == 'C':
+        btn_color = clear_color
+    else:
+        btn_color = button_color
+    button = tk.Button(window, text=text, padx=40, pady=20, font=('Arial', 14), bg=btn_color, command=lambda t=text: on_click(t) if t.isnumeric() else on_clear() if t == 'C' else on_operation(t) if t in "+-*/" else on_equal())
     button.grid(row=row, column=col)
 
 first_number = None
