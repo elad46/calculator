@@ -1,11 +1,11 @@
 import tkinter as tk
 
-def on_click(character):
+def on_click(char):
     current = entry.get()
-    if character == "." and "." in current:
+    if char == "." and "." in current:
         return
     entry.delete(0, tk.END)
-    entry.insert(tk.END, current + str(character))
+    entry.insert(tk.END, current + str(char))
 
 def on_clear():
     entry.delete(0, tk.END)
